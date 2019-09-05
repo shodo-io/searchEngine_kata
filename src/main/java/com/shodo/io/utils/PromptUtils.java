@@ -6,12 +6,19 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 
+/**
+ * Tool Class for user interactions.
+ */
 public final class PromptUtils {
 
     private PromptUtils() {
         throw new AssertionError(PromptUtils.class.getName() + " can not be instantiated.");
     }
 
+    /**
+     * Read all the words typed by user.
+     * @return List of words typed by user.
+     */
     public static List<String> readSearchedWords() {
         List<String> searchedWord = new ArrayList<>();
         System.out.print("search>");

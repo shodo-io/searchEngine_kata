@@ -32,13 +32,19 @@ public class ScoresEngine {
         }
         try {
             var directory = args[0];
-            FilesUtils.displayFilesCount(directory);
+            FilesUtils.displayFilesCount(directory, "txt");
             readFilesAndShowScores(directory);
         } catch (IOException e) {
             System.err.println("The program can't find the specified folder. Please type an existing one.");
         }
     }
 
+    /**
+     * Gneral algorithm calculating the scores.
+     * <p>Note : 'exit' is a reserved word but alone. If typed alone, the program will exit.</p>
+     * @param directory The directory containing files
+     * @throws IOException If the directory is not read.
+     */
     private static void readFilesAndShowScores(String directory) throws IOException {
         try (var filesPaths = Files.list(Paths.get(directory))) {
             var filesContent = FilesUtils.readFilesContent(filesPaths);

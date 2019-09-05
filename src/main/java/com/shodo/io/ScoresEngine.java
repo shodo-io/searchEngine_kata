@@ -10,11 +10,19 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Comparator;
 
+
 public class ScoresEngine {
 
     /**
      * Search Engine main function. It takes the words given on the prompt and return
      * a list of the top 10 matching filenames in rank order.
+     * <p>
+     *     <ul>
+     *          <li>The rank score must be 100% if a file contains all the words</li>
+     *          <li>It must	be 0% if it contains none of the words</li>
+     *          <li>It should be between 0 and 100 if it contains only some of the words</li>
+     *     </ul>
+     * </p>
      *
      * @param args Program arguments containing the directory in which research is done.
      */
@@ -41,8 +49,8 @@ public class ScoresEngine {
                     break;
                 }
                 var ranks = Rank.calculateRanks(filesContent, searchedWords);
-                ranks.sort(Comparator.comparing(Rank::getFileName));
-                ranks.forEach(System.out::println);
+                ranks.sort(Comparator.comparing(Rank::getScore).reversed());
+                ranks.stream().limit(10).forEach(System.out::println);
             }
         }
     }

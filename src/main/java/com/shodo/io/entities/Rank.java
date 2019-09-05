@@ -42,7 +42,7 @@ public class Rank {
         }
         Rank rank = (Rank) o;
         return Objects.equals(fileName, rank.fileName) &&
-                Objects.equals(score, rank.score);
+                Objects.equals(score.setScale(2, RoundingMode.HALF_UP), rank.score.setScale(2, RoundingMode.HALF_UP));
     }
 
     @Override
@@ -50,7 +50,7 @@ public class Rank {
         return Objects.hash(fileName, score);
     }
 
-    public static Rank calculateRank(String fileName, List<String> fileWords, List<String> searchedWords) {
+    static Rank calculateRank(String fileName, List<String> fileWords, List<String> searchedWords) {
         var existingWordsInFile = searchedWords.stream().filter(fileWords::contains).collect(Collectors.toList());
         return new Rank(fileName,
                 BigDecimal.valueOf(existingWordsInFile.size())

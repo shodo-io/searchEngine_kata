@@ -1,14 +1,12 @@
 package com.shodo.io;
 
-import com.shodo.io.entities.Rank;
 import com.shodo.io.exceptions.ScoresEngineInputException;
 import com.shodo.io.utils.FilesUtils;
-import com.shodo.io.utils.PromptUtils;
+import com.shodo.io.utils.ScoresUtils;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Comparator;
 
 
 public class ScoresEngine {
@@ -49,15 +47,9 @@ public class ScoresEngine {
         try (var filesPaths = Files.list(Paths.get(directory))) {
             var filesContent = FilesUtils.readFilesContent(filesPaths);
             while (true) {
-                var searchedWords = PromptUtils.readSearchedWords();
-                if (searchedWords.size() == 1 && searchedWords.contains("exit")) {
-                    System.out.println("Exiting...");
-                    break;
-                }
-                var ranks = Rank.calculateRanks(filesContent, searchedWords);
-                ranks.sort(Comparator.comparing(Rank::getScore).reversed());
-                ranks.stream().limit(10).forEach(System.out::println);
+                if (ScoresUtils.calculateScores(filesContent)) break;
             }
         }
     }
+
 }

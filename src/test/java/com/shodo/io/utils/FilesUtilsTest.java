@@ -52,7 +52,7 @@ public class FilesUtilsTest {
 
     @Test
     public void should_display_number_of_files_in_direcory() throws IOException {
-        FilesUtils.displayFilesCount("src/test/resources");
+        FilesUtils.displayFilesCount("src/test/resources", "txt");
         assertEquals("3 files read in directory src/test/resources", systemOutRule.getLogWithNormalizedLineSeparator().trim());
     }
 }

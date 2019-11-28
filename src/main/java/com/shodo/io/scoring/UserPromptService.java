@@ -1,4 +1,4 @@
-package com.shodo.io.utils;
+package com.shodo.io.scoring;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -9,17 +9,13 @@ import java.util.stream.Collectors;
 /**
  * Tool Class for user interactions.
  */
-public final class PromptUtils {
-
-    private PromptUtils() {
-        throw new AssertionError(PromptUtils.class.getName() + " can not be instantiated.");
-    }
+public class UserPromptService {
 
     /**
      * Read all the words typed by user.
      * @return List of words typed by user.
      */
-    public static List<String> readSearchedWords() {
+    public List<String> readSearchedWords() {
         List<String> searchedWord = new ArrayList<>();
         System.out.print("search>");
         var scanner = new Scanner(System.in);

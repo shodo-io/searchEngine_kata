@@ -1,4 +1,4 @@
-package com.shodo.io.utils;
+package com.shodo.io.scoring;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -13,11 +13,7 @@ import java.util.stream.Stream;
 /**
  * Tool class manipulating files.
  */
-public final class FilesUtils {
-
-    private FilesUtils() {
-        throw new AssertionError(FilesUtils.class.getName() + " can not be instantiated.");
-    }
+public class InputFilesService {
 
     /**
      * This method reads all files content (filesPaths parameter).
@@ -27,7 +23,7 @@ public final class FilesUtils {
      * @param filesPaths Files list to read.
      * @return A Map containing as key, the files name. And a list of words in values.
      */
-    public static Map<String, List<String>> readFilesContent(Stream<Path> filesPaths) {
+    public Map<String, List<String>> readFilesContent(Stream<Path> filesPaths) {
         Map<String, List<String>> filesContent = new HashMap<>();
         filesPaths.forEach(filePath -> {
             try {
@@ -52,7 +48,7 @@ public final class FilesUtils {
      * @param filesExtension Predicat that indicate files extension to consider.
      * @throws IOException If the directory doesn't exist.
      */
-    public static void displayFilesCount(String directory, String filesExtension) throws IOException {
+    public void displayFilesCount(String directory, String filesExtension) throws IOException {
         long filesCount;
         try (var filesPaths = Files.list(Paths.get(directory))) {
             filesCount = filesPaths

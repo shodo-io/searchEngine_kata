@@ -1,5 +1,7 @@
-package com.shodo.io.utils;
+package com.shodo.io.scoring;
 
+import com.shodo.io.scoring.InputFilesService;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.contrib.java.lang.system.SystemErrRule;
@@ -17,18 +19,24 @@ import java.util.stream.Stream;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-public class FilesUtilsTest {
+public class InputFilesServiceTest {
 
     @Rule
     public final SystemErrRule systemErrRule = new SystemErrRule().enableLog();
 
     @Rule
     public final SystemOutRule systemOutRule = new SystemOutRule().enableLog();
+    private InputFilesService inputFilesServiceSUT;
+
+    @Before
+    public void setUp() {
+        inputFilesServiceSUT = new InputFilesService();
+    }
 
     @Test
     public void should_return_each_word_in_list_by_file() throws IOException {
         try (var filesPaths = Files.list(Paths.get("src/test/resources"))) {
-            Map<String, List<String>> result = FilesUtils.readFilesContent(filesPaths);
+            Map<String, List<String>> result = inputFilesServiceSUT.readFilesContent(filesPaths);
             String file1 = "file1.txt";
             String file2 = "file2.txt";
             String file3 = "file3.txt";
@@ -44,15 +52,15 @@ public class FilesUtilsTest {
 
     @Test
     public void should_return_empty_map() {
-        var result = FilesUtils.readFilesContent(Stream.of(Paths.get("src/test/resources/non-existent-folder")));
-        assertEquals("Error while loading lines from file : src\\test\\resources\\non-existent-folder",
+        var result = inputFilesServiceSUT.readFilesContent(Stream.of(Paths.get("src/test/resources/non-existent-folder")));
+        assertEquals("Error while loading lines from file : src/test/resources/non-existent-folder",
                 systemErrRule.getLogWithNormalizedLineSeparator().trim());
         assertTrue(result.isEmpty());
     }
 
     @Test
     public void should_display_number_of_files_in_direcory() throws IOException {
-        FilesUtils.displayFilesCount("src/test/resources", "txt");
+        inputFilesServiceSUT.displayFilesCount("src/test/resources", "txt");
         assertEquals("3 files read in directory src/test/resources", systemOutRule.getLogWithNormalizedLineSeparator().trim());
     }
 }

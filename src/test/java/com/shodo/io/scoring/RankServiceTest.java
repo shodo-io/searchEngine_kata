@@ -1,5 +1,6 @@
-package com.shodo.io.entities;
+package com.shodo.io.scoring;
 
+import com.shodo.io.entities.Rank;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -11,50 +12,51 @@ import java.util.Map;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-public class RankTest {
+public class RankServiceTest {
 
     private List<String> fileWords;
     private String fileName;
-
+private RankService rankServiceSUT;
     @Before
     public void setUp() {
+        rankServiceSUT = new RankService();
         fileWords = Arrays.asList("one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten");
         fileName = "file.txt";
     }
 
     @Test
     public void should_return_0_percent_score() {
-        var rank = Rank.calculateRank(fileName, fileWords, Arrays.asList("fifteen", "eleven", "twelve", "twenty"));
+        var rank = rankServiceSUT.calculateRank(fileName, fileWords, Arrays.asList("fifteen", "eleven", "twelve", "twenty"));
         assertEquals(new Rank(fileName, new BigDecimal("0.00")), rank);
     }
 
     @Test
     public void should_return_25_percent_score() {
-        var rank = Rank.calculateRank(fileName, fileWords, Arrays.asList("one", "eleven", "twelve", "twenty"));
+        var rank = rankServiceSUT.calculateRank(fileName, fileWords, Arrays.asList("one", "eleven", "twelve", "twenty"));
         assertEquals(new Rank(fileName, new BigDecimal("0.25")), rank);
     }
 
     @Test
     public void should_return_50_percent_score() {
-        var rank = Rank.calculateRank(fileName, fileWords, Arrays.asList("one", "eleven"));
+        var rank = rankServiceSUT.calculateRank(fileName, fileWords, Arrays.asList("one", "eleven"));
         assertEquals(new Rank(fileName, new BigDecimal("0.50")), rank);
     }
 
     @Test
     public void should_return_75_percent_score() {
-        var rank = Rank.calculateRank(fileName, fileWords, Arrays.asList("one", "two", "three", "twenty"));
+        var rank = rankServiceSUT.calculateRank(fileName, fileWords, Arrays.asList("one", "two", "three", "twenty"));
         assertEquals(new Rank(fileName, new BigDecimal("0.75")), rank);
     }
 
     @Test
     public void should_return_100_percent_score() {
-        var rank = Rank.calculateRank(fileName, fileWords, Arrays.asList("one", "two", "three", "four"));
+        var rank = rankServiceSUT.calculateRank(fileName, fileWords, Arrays.asList("one", "two", "three", "four"));
         assertEquals(new Rank(fileName, new BigDecimal("1.00")), rank);
     }
 
     @Test
     public void should_return_100_percent_for_two_files() {
-        var ranks = Rank.calculateRanks(Map.of(fileName, fileWords, "file2.txt", Arrays.asList("one", "two", "three", "four")),
+        var ranks = rankServiceSUT.calculateRanks(Map.of(fileName, fileWords, "file2.txt", Arrays.asList("one", "two", "three", "four")),
                 Arrays.asList("one", "two", "three", "four"));
         assertEquals(2, ranks.size());
         ranks.forEach(rank ->

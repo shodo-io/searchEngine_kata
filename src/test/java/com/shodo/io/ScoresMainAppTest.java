@@ -10,7 +10,7 @@ import org.junit.contrib.java.lang.system.TextFromStandardInputStream;
 
 import static org.junit.Assert.assertEquals;
 
-public class ScoresEngineTest {
+public class ScoresMainAppTest {
 
     @Rule
     public final SystemErrRule systemErrRule = new SystemErrRule().enableLog();
@@ -23,12 +23,12 @@ public class ScoresEngineTest {
 
     @Test(expected = ScoresEngineInputException.class)
     public void main_empty_args() throws ScoresEngineInputException {
-        ScoresEngine.main(new String[]{});
+        ScoresMainApp.main(new String[]{});
     }
 
     @Test
     public void main_non_existant_directory() throws ScoresEngineInputException {
-        ScoresEngine.main(new String[]{"src/test/resosssurces"});
+        ScoresMainApp.main(new String[]{"src/test/resosssurces"});
         assertEquals("The program can't find the specified folder. Please type an existing one.",
                 systemErrRule.getLogWithNormalizedLineSeparator().trim());
     }
